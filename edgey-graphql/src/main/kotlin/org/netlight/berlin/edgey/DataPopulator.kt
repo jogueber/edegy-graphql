@@ -2,6 +2,8 @@ package org.netlight.berlin.edgey
 
 import io.quarkus.runtime.StartupEvent
 import net.datafaker.Faker
+import org.netlight.berlin.edgey.client.Client
+import org.netlight.berlin.edgey.client.ClientRepository
 import org.netlight.berlin.edgey.consultants.Consultant
 import org.netlight.berlin.edgey.consultants.ConsultantRepository
 import org.netlight.berlin.edgey.office.Office
@@ -14,7 +16,8 @@ import kotlin.random.Random
 @ApplicationScoped
 class DataPopulator(
 	val officeRepository: OfficeRepository,
-	val consultantRepository: ConsultantRepository
+	val consultantRepository: ConsultantRepository,
+	val clientRepository: ClientRepository
 ) {
 
 	@Transactional
@@ -43,16 +46,25 @@ class DataPopulator(
 		officeRepository.persist(stockholm)
 		val offices = listOf(berlin, hamburg, stockholm)
 		val faker = Faker()
-		(0..300).map {
+		val consultants = (0..300).map {
 			val consultant = Consultant().apply {
 				firstName = faker.name().firstName()
 				lastName = faker.name().lastName()
-				birthYear = Random.nextInt()
+				birthYear = Random.nextInt(1900, 2005)
 				office = offices.random()
 			}
 			consultantRepository.persist(consultant)
+			consultant
 		}
-
-
+		(0..25).map {
+			val client = Client().apply {
+				val company = faker.company()
+				name = faker.company().name()
+				industry = company.industry()
+				office = offices.random()
+				assignedConsultants = consultants.subList(it * 10, (it + 1) * 10)
+			}
+			clientRepository.persist(client)
+		}
 	}
 }

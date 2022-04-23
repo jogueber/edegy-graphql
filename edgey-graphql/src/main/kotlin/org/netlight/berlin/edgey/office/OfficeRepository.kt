@@ -8,4 +8,5 @@ import javax.enterprise.context.ApplicationScoped
 class OfficeRepository : PanacheRepository<Office> {
 	fun findByCountry(country: String) = find("country", Sort.by("country"), country).list()
 	fun findByName(name: String) = find("name", name).firstResult()
+	fun findByCity(city: String) = find("city", city).firstResult()
 }

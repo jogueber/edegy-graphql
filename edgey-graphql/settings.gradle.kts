@@ -11,3 +11,4 @@ pluginManagement {
     }
 }
 rootProject.name="edgey-graphql"
+include(":client")

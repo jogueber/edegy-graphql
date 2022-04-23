@@ -1,0 +1,77 @@
+schema {
+  query: Query
+  mutation: Mutation
+}
+
+"Directs the executor to include this field or fragment only when the `if` argument is true"
+directive @include(
+    "Included when true."
+    if: Boolean!
+  ) on FIELD | FRAGMENT_SPREAD | INLINE_FRAGMENT
+
+"Directs the executor to skip this field or fragment when the `if`'argument is true."
+directive @skip(
+    "Skipped when true."
+    if: Boolean!
+  ) on FIELD | FRAGMENT_SPREAD | INLINE_FRAGMENT
+
+"Marks the field, argument, input field or enum value as deprecated"
+directive @deprecated(
+    "The reason for the deprecation"
+    reason: String = "No longer supported"
+  ) on FIELD_DEFINITION | ARGUMENT_DEFINITION | ENUM_VALUE | INPUT_FIELD_DEFINITION
+
+"Exposes a URL that specifies the behaviour of this scalar."
+directive @specifiedBy(
+    "The URL that specifies the behaviour of this scalar."
+    url: String!
+  ) on SCALAR
+
+interface Netlighter {
+  birthYear: Int!
+  firstName: String
+  lastName: String
+}
+
+type Client {
+  assignedConsultants: [Consultant]
+  industry: String
+  name: String
+  office: Office
+}
+
+type Consultant implements Netlighter {
+  birthYear: Int!
+  client: Client
+  firstName: String
+  lastName: String
+  office: Office
+}
+
+"Mutation root"
+type Mutation {
+  openNewOffice(office: OfficeInput): Office
+}
+
+type Office {
+  city: String
+  country: String
+  name: String
+  postalCode: String
+}
+
+"Query root"
+type Query {
+  allOffices: [Office]
+  findAllConsultants: [Consultant]
+  "find all the client for an office"
+  findClientsByOffice(officeName: String): [Client]
+  officesByCountry(country: String): [Office]
+}
+
+input OfficeInput {
+  city: String
+  country: String
+  name: String
+  postalCode: String
+}
