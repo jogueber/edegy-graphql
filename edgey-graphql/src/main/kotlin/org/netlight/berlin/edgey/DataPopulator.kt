@@ -28,23 +28,30 @@ class DataPopulator(
 			country = "Germany"
 			postalCode = "10781"
 		}
+		officeRepository.persist(berlin)
 		val hamburg = Office().apply {
 			name = "the also awsome hamburg office"
 			city = "Hamburg"
 			country = "Germany"
-			postalCode = "10781"
+			postalCode = "20457"
 		}
-		officeRepository.persist(berlin)
 		officeRepository.persist(hamburg)
-
 		val stockholm = Office().apply {
 			name = "the also mothership stockholm"
 			city = "Stockholm"
 			country = "Sweden"
-			postalCode = "10781"
+			postalCode = "11153"
 		}
 		officeRepository.persist(stockholm)
-		val offices = listOf(berlin, hamburg, stockholm)
+
+		val munich = Office().apply {
+			name = "the first office in germany"
+			city = "Munich"
+			country = "Germany"
+			postalCode = "80538"
+		}
+		officeRepository.persist(munich)
+		val offices = listOf(berlin, hamburg, stockholm, munich)
 		val faker = Faker()
 		val consultants = (0..300).map {
 			val consultant = Consultant().apply {

@@ -14,6 +14,8 @@ val quarkusPlatformArtifactId: String by project
 val quarkusPlatformVersion: String by project
 
 dependencies {
+    implementation("io.quarkus:quarkus-rest-client")
+    implementation("io.quarkus:quarkus-rest-client-jackson")
     implementation("io.quarkus:quarkus-container-image-docker")
     implementation("io.quarkus:quarkus-kubernetes")
     implementation(enforcedPlatform("${quarkusPlatformGroupId}:${quarkusPlatformArtifactId}:${quarkusPlatformVersion}"))
@@ -26,6 +28,9 @@ dependencies {
     implementation("io.quarkus:quarkus-arc")
     testImplementation("io.quarkus:quarkus-junit5")
 	implementation("net.datafaker:datafaker:1.3.0")
+	implementation ("io.github.microutils:kotlin-logging-jvm:2.1.20")
+	implementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.13.2")
+
 }
 
 group = "org.netlight"
