@@ -47,5 +47,8 @@ tasks.withType<com.netflix.graphql.dgs.codegen.gradle.GenerateJavaTask> {
 	schemaPaths = mutableListOf("${projectDir}/src/main/resources/schema") // List of directories containing schema files
 	packageName = "com.example.packagename" // The package name to use to generate sources
 	generateClient = true // Enable generating the type safe query API
+	typeMapping= mutableMapOf(
+		"BigInteger" to "java.math.BigInteger"
+	)
 
 }

@@ -1,32 +1,3 @@
-schema {
-  query: Query
-  mutation: Mutation
-}
-
-"Directs the executor to include this field or fragment only when the `if` argument is true"
-directive @include(
-    "Included when true."
-    if: Boolean!
-  ) on FIELD | FRAGMENT_SPREAD | INLINE_FRAGMENT
-
-"Directs the executor to skip this field or fragment when the `if`'argument is true."
-directive @skip(
-    "Skipped when true."
-    if: Boolean!
-  ) on FIELD | FRAGMENT_SPREAD | INLINE_FRAGMENT
-
-"Marks the field, argument, input field or enum value as deprecated"
-directive @deprecated(
-    "The reason for the deprecation"
-    reason: String = "No longer supported"
-  ) on FIELD_DEFINITION | ARGUMENT_DEFINITION | ENUM_VALUE | INPUT_FIELD_DEFINITION
-
-"Exposes a URL that specifies the behaviour of this scalar."
-directive @specifiedBy(
-    "The URL that specifies the behaviour of this scalar."
-    url: String!
-  ) on SCALAR
-
 interface Netlighter {
   birthYear: Int!
   firstName: String
@@ -40,12 +11,30 @@ type Client {
   office: Office
 }
 
+type Clouds {
+  all: BigInteger!
+}
+
 type Consultant implements Netlighter {
   birthYear: Int!
   client: Client
   firstName: String
   lastName: String
   office: Office
+}
+
+type Coord {
+  lat: Float!
+  lon: Float!
+}
+
+type Main {
+  feelsLike: Float!
+  humidity: BigInteger!
+  pressure: BigInteger!
+  temp: Float!
+  tempMax: Float!
+  tempMin: Float!
 }
 
 "Mutation root"
@@ -67,7 +56,48 @@ type Query {
   "find all the client for an office"
   findClientsByOffice(officeName: String): [Client]
   officesByCountry(country: String): [Office]
+  weatherForOffice(officeName: String): WeatherResponse
 }
+
+type Sys {
+  country: String
+  id: BigInteger!
+  message: Float!
+  sunrise: BigInteger!
+  sunset: BigInteger!
+  type: BigInteger!
+}
+
+type Weather {
+  description: String
+  icon: String
+  id: BigInteger!
+  main: String
+}
+
+type WeatherResponse {
+  base: String
+  clouds: Clouds
+  cod: BigInteger!
+  coord: Coord
+  dt: BigInteger!
+  id: BigInteger!
+  main: Main
+  name: String
+  sys: Sys
+  timezone: BigInteger!
+  visibility: BigInteger!
+  weather: [Weather]
+  wind: Wind
+}
+
+type Wind {
+  deg: BigInteger!
+  speed: Float!
+}
+
+"Scalar for BigInteger"
+scalar BigInteger
 
 input OfficeInput {
   city: String
